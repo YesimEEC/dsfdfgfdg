@@ -1,0 +1,789 @@
+Import('env')
+
+if env['ARCH'] == 'xtensa':
+
+    env.CertBundle()
+
+    libs = ['$BUILD_DIR/app_trace/libapp_trace.a',
+            # '$BUILD_DIR/app_update/libapp_update.a',
+            # '$BUILD_DIR/asio/libasio.a',
+            # '$BUILD_DIR/bootloader_support/libbootloader_support.a',
+            # '$BUILD_DIR/cbor/libcbor.a',
+            # '$BUILD_DIR/cmock/libcmock.a',
+            # '$BUILD_DIR/coap/libcoap.a',
+            # '$BUILD_DIR/console/libconsole.a',
+            # '$BUILD_DIR/cxx/libcxx.a',
+            # '$BUILD_DIR/driver/libdriver.a',
+            # '$BUILD_DIR/efuse/libefuse.a',
+            # '$BUILD_DIR/esp_adc_cal/libesp_adc_cal.a',
+            # '$BUILD_DIR/esp-tls/libesp-tls.a',
+            # '$BUILD_DIR/esp_common/libesp_common.a',
+            # '$BUILD_DIR/esp_eth/libesp_eth.a',
+            # '$BUILD_DIR/esp_event/libesp_event.a',
+            # '$BUILD_DIR/esp_gdbstub/libesp_gdbstub.a',
+            # '$BUILD_DIR/esp_hid/libesp_hid.a',
+            # '$BUILD_DIR/esp_http_client/libesp_http_client.a',
+            # '$BUILD_DIR/esp_http_server/libesp_http_server.a',
+            # '$BUILD_DIR/esp_https_ota/libesp_https_ota.a',
+            # '$BUILD_DIR/esp_hw_support/libesp_hw_support.a',
+            # '$BUILD_DIR/esp_ipc/libesp_ipc.a',
+            # '$BUILD_DIR/esp_lcd/libesp_lcd.a',
+            # '$BUILD_DIR/esp_local_ctrl/libesp_local_ctrl.a',
+            # '$BUILD_DIR/esp_netif/libesp_netif.a',
+            # '$BUILD_DIR/esp_phy/libesp_phy.a',
+            # '$BUILD_DIR/esp_pm/libesp_pm.a',
+            # '$BUILD_DIR/esp_ringbuf/libesp_ringbuf.a',
+            # '$BUILD_DIR/esp_rom/libesp_rom.a',
+            # '$BUILD_DIR/esp_serial_slave_link/libesp_serial_slave_link.a',
+            # '$BUILD_DIR/esp_system/libesp_system.a',
+            # '$BUILD_DIR/esp_timer/libesp_timer.a',
+            # '$BUILD_DIR/esp_websocket_client/libesp_websocket_client.a',
+            # '$BUILD_DIR/esp_wifi/libesp_wifi.a',
+            # '$BUILD_DIR/espcoredump/libespcoredump.a',
+            # '$BUILD_DIR/expat/libexpat.a',
+            # '$BUILD_DIR/fatfs/libfatfs.a',
+            # '$BUILD_DIR/freemodbus/libfreemodbus.a',
+            # '$BUILD_DIR/freertos/libfreertos.a',
+            # '$BUILD_DIR/hal/libhal.a',
+            # '$BUILD_DIR/heap/libheap.a',
+            # '$BUILD_DIR/jsmn/libjsmn.a',
+            # '$BUILD_DIR/json/libjson.a',
+            # '$BUILD_DIR/log/liblog.a',
+            # '$BUILD_DIR/libsodium/libsodium.a',
+            # '$BUILD_DIR/lwip/liblwip.a',
+        ]
+    
+    blink_elf = env.Firmware('blink.elf',
+                            'src/blink.c',
+                            WHOLE_LIBS_ABS=libs)
+
+    env.FirmwareComponent('app_trace', [
+        '/opt/esp/esp-idf/components/app_trace/app_trace.c',
+        '/opt/esp/esp-idf/components/app_trace/app_trace_util.c',
+        '/opt/esp/esp-idf/components/app_trace/host_file_io.c',
+        '/opt/esp/esp-idf/components/app_trace/gcov/gcov_rtio.c',
+    ])
+
+    env.FirmwareComponent('app_update', [
+        '/opt/esp/esp-idf/components/app_update/esp_ota_ops.c',
+        '/opt/esp/esp-idf/components/app_update/esp_app_desc.c',
+    ])
+
+    env.FirmwareComponent('asio', [
+        '/opt/esp/esp-idf/components/asio/asio/asio/src/asio.cpp',
+    ])
+    
+    env.FirmwareComponent('bootloader_support', [
+        '/opt/esp/esp-idf/components/bootloader_support/src/bootloader_common.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/bootloader_common_loader.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/bootloader_clock_init.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/bootloader_flash.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/bootloader_mem.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/bootloader_random.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/bootloader_random_esp32.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/bootloader_utility.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/esp_image_format.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/flash_encrypt.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/secure_boot.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/flash_partitions.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/flash_qio_mode.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/bootloader_flash_config_esp32.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src/bootloader_efuse_esp32.c',
+        '/opt/esp/esp-idf/components/bootloader_support/src//idf/bootloader_sha.c',
+    ])
+    
+    env.FirmwareComponent('cbor', [
+        '/opt/esp/esp-idf/components/cbor/tinycbor/src/cborencoder_close_container_checked.c',
+        '/opt/esp/esp-idf/components/cbor/tinycbor/src/cborencoder.c',
+        '/opt/esp/esp-idf/components/cbor/tinycbor/src/cborerrorstrings.c',
+        '/opt/esp/esp-idf/components/cbor/tinycbor/src/cborparser_dup_string.c',
+        '/opt/esp/esp-idf/components/cbor/tinycbor/src/cborparser.c',
+        '/opt/esp/esp-idf/components/cbor/tinycbor/src/cborpretty_stdio.c',
+        '/opt/esp/esp-idf/components/cbor/tinycbor/src/cborpretty.c',
+        '/opt/esp/esp-idf/components/cbor/tinycbor/src/cbortojson.c',
+        '/opt/esp/esp-idf/components/cbor/tinycbor/src/cborvalidation.c',
+        '/opt/esp/esp-idf/components/cbor/tinycbor/src/open_memstream.c',
+    ], CPPDEFINES='__linux__')
+
+    env.FirmwareComponent('cmock', [
+        '/opt/esp/esp-idf/components/cmock/CMock/src/cmock.c',
+    ])
+
+    env.FirmwareComponent('coap', [
+        '/opt/esp/esp-idf/components/coap/libcoap/src/async.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/address.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/block.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_asn1.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_cache.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_debug.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_event.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_hashkey.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_io.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_mbedtls.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_notls.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_prng.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_session.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_tcp.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/coap_time.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/encode.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/mem.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/net.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/option.c',
+        '/opt/esp/esp-idf/components/coap/libcoap/src/pdu.c',
+    ])
+
+    env.FirmwareComponent('console', [
+        '/opt/esp/esp-idf/components/console/linenoise/linenoise.c',
+        '/opt/esp/esp-idf/components/console/esp_console_repl.c',
+        '/opt/esp/esp-idf/components/console/split_argv.c',
+        '/opt/esp/esp-idf/components/console/argtable3/argtable3.c',
+        '/opt/esp/esp-idf/components/console/commands.c',
+    ])
+
+    env.FirmwareComponent('cxx', [
+        '/opt/esp/esp-idf/components/cxx/cxx_exception_stubs.cpp',
+        '/opt/esp/esp-idf/components/cxx/cxx_guards.cpp',
+    ])
+
+    env.FirmwareComponent('driver', [
+        '/opt/esp/esp-idf/components/driver/gpio.c',
+        '/opt/esp/esp-idf/components/driver/i2c.c',
+        '/opt/esp/esp-idf/components/driver/i2s.c',
+        '/opt/esp/esp-idf/components/driver/ledc.c',
+        '/opt/esp/esp-idf/components/driver/pcnt.c',
+        '/opt/esp/esp-idf/components/driver/periph_ctrl.c',
+        '/opt/esp/esp-idf/components/driver/rmt.c',
+        '/opt/esp/esp-idf/components/driver/rtc_io.c',
+        '/opt/esp/esp-idf/components/driver/rtc_module.c',
+        '/opt/esp/esp-idf/components/driver/sdspi_crc.c',
+        '/opt/esp/esp-idf/components/driver/sdspi_host.c',
+        '/opt/esp/esp-idf/components/driver/sdspi_transaction.c',
+        '/opt/esp/esp-idf/components/driver/sigmadelta.c',
+        '/opt/esp/esp-idf/components/driver/spi_common.c',
+        '/opt/esp/esp-idf/components/driver/spi_master.c',
+        '/opt/esp/esp-idf/components/driver/spi_slave.c',
+        '/opt/esp/esp-idf/components/driver/spi_bus_lock.c',
+        '/opt/esp/esp-idf/components/driver/timer.c',
+        '/opt/esp/esp-idf/components/driver/twai.c',
+        '/opt/esp/esp-idf/components/driver/uart.c',
+        '/opt/esp/esp-idf/components/driver/adc_common.c',
+        '/opt/esp/esp-idf/components/driver/dac_common.c',
+        '/opt/esp/esp-idf/components/driver/mcpwm.c',
+        '/opt/esp/esp-idf/components/driver/sdio_slave.c',
+        '/opt/esp/esp-idf/components/driver/sdmmc_host.c',
+        '/opt/esp/esp-idf/components/driver/sdmmc_transaction.c',
+        '/opt/esp/esp-idf/components/driver/touch_sensor_common.c',
+        '/opt/esp/esp-idf/components/driver/esp32/touch_sensor.c',
+        '/opt/esp/esp-idf/components/driver/adc.c',
+        '/opt/esp/esp-idf/components/driver/esp32/adc.c',
+        '/opt/esp/esp-idf/components/driver/adc_deprecated.c',
+        '/opt/esp/esp-idf/components/driver/esp32/dac.c',
+    ])
+
+    # bunun ekstra pathlerini düzenle
+    env.FirmwareComponent('efuse', [
+        '/opt/esp/esp-idf/components/efuse/esp32/esp_efuse_table.c',
+        '/opt/esp/esp-idf/components/efuse/esp32/esp_efuse_fields.c',
+        '/opt/esp/esp-idf/components/efuse/esp32/esp_efuse_utility.c',
+        '/opt/esp/esp-idf/components/efuse/src/esp_efuse_api.c',
+        '/opt/esp/esp-idf/components/efuse/src/esp_efuse_fields.c',
+        '/opt/esp/esp-idf/components/efuse/src/esp_efuse_utility.c',
+        '/opt/esp/esp-idf/components/efuse/src/esp_efuse_api_key_esp32.c',
+    ], CPPPATH=['/opt/esp/esp-idf/components/efuse/private_include',
+                '/opt/esp/esp-idf/components/efuse/esp32/private_include', env.get('CPPPATH')])
+
+    env.FirmwareComponent('esp_adc_cal', [
+        '/opt/esp/esp-idf/components/esp_adc_cal/esp_adc_cal_common.c',
+        '/opt/esp/esp-idf/components/esp_adc_cal/esp32/esp_adc_cal.c',
+    ])
+
+    env.FirmwareComponent('esp-tls', [
+        '/opt/esp/esp-idf/components/esp-tls/esp_tls.c',
+        '/opt/esp/esp-idf/components/esp-tls/esp-tls-crypto/esp_tls_crypto.c',
+        '/opt/esp/esp-idf/components/esp-tls/esp_tls_error_capture.c',
+        '/opt/esp/esp-idf/components/esp-tls/esp_tls_mbedtls.c',
+    ])
+
+    env.FirmwareComponent('esp_common', [
+        '/opt/esp/esp-idf/components/esp_common/src/esp_err_to_name.c',
+    ])
+
+    env.FirmwareComponent('esp_eth', [
+        '/opt/esp/esp-idf/components/esp_eth/src/esp_eth.c',
+        '/opt/esp/esp-idf/components/esp_eth/src/esp_eth_phy.c',
+        '/opt/esp/esp-idf/components/esp_eth/src/esp_eth_netif_glue.c',
+        '/opt/esp/esp-idf/components/esp_eth/src/esp_eth_mac_esp.c',
+        '/opt/esp/esp-idf/components/esp_eth/src/esp_eth_phy_dp83848.c',
+        '/opt/esp/esp-idf/components/esp_eth/src/esp_eth_phy_ip101.c',
+        '/opt/esp/esp-idf/components/esp_eth/src/esp_eth_phy_lan87xx.c',
+        '/opt/esp/esp-idf/components/esp_eth/src/esp_eth_phy_ksz80xx.c',
+        '/opt/esp/esp-idf/components/esp_eth/src/esp_eth_phy_rtl8201.c',
+    ])
+
+    env.FirmwareComponent('esp_event', [
+        '/opt/esp/esp-idf/components/esp_event/default_event_loop.c',
+        '/opt/esp/esp-idf/components/esp_event/esp_event_private.c',
+        '/opt/esp/esp-idf/components/esp_event/esp_event.c',
+        '/opt/esp/esp-idf/components/esp_event/event_loop_legacy.c',
+        '/opt/esp/esp-idf/components/esp_event/event_send.c',
+    ])
+
+    env.FirmwareComponent('esp_gdbstub', [
+        '/opt/esp/esp-idf/components/esp_gdbstub/xtensa/gdbstub_xtensa.c',
+        '/opt/esp/esp-idf/components/esp_gdbstub/xtensa/gdbstub-entry.S',
+        '/opt/esp/esp-idf/components/esp_gdbstub/src/gdbstub.c',
+        '/opt/esp/esp-idf/components/esp_gdbstub/src/packet.c',
+        '/opt/esp/esp-idf/components/esp_gdbstub/esp_common/gdbstub_common.c',
+    ])
+
+    env.FirmwareComponent('esp_hid', [
+        '/opt/esp/esp-idf/components/esp_hid/src/esp_hidd.c',
+        '/opt/esp/esp-idf/components/esp_hid/src/esp_hid_common.c',
+        '/opt/esp/esp-idf/components/esp_hid/src/esp_hidh.c',
+    ])
+
+    env.FirmwareComponent('esp_http_client', [
+        '/opt/esp/esp-idf/components/esp_http_client/esp_http_client.c',
+        '/opt/esp/esp-idf/components/esp_http_client/lib/http_auth.c',
+        '/opt/esp/esp-idf/components/esp_http_client/lib/http_header.c',
+        '/opt/esp/esp-idf/components/esp_http_client/lib/http_utils.c',
+    ])
+
+    env.FirmwareComponent('esp_http_server', [
+        '/opt/esp/esp-idf/components/esp_http_server/src/httpd_main.c',
+        '/opt/esp/esp-idf/components/esp_http_server/src/httpd_parse.c',
+        '/opt/esp/esp-idf/components/esp_http_server/src/httpd_sess.c',
+        '/opt/esp/esp-idf/components/esp_http_server/src/httpd_txrx.c',
+        '/opt/esp/esp-idf/components/esp_http_server/src/httpd_uri.c',
+        '/opt/esp/esp-idf/components/esp_http_server/src/httpd_ws.c',
+        '/opt/esp/esp-idf/components/esp_http_server/src/util/ctrl_sock.c',
+    ])
+
+    env.FirmwareComponent('esp_https_ota', [
+        '/opt/esp/esp-idf/components/esp_https_ota/src/esp_https_ota.c',
+    ])
+
+    env.FirmwareComponent('esp_hw_support', [
+        '/opt/esp/esp-idf/components/esp_hw_support/compare_set.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/cpu_util.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/esp_async_memcpy.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/esp_clk.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/clk_ctrl_os.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/hw_random.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/intr_alloc.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/mac_addr.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/sleep_modes.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/sleep_gpio.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/sleep_mac_bb.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/regi2c_ctrl.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/rtc_clk.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/rtc_clk_init.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/rtc_init.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/rtc_pm.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/rtc_sleep.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/rtc_time.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/rtc_wdt.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/chip_info.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/cache_sram_mmu.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/dport_access.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/esp_himem.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/spiram.c',
+        '/opt/esp/esp-idf/components/esp_hw_support/port/esp32/spiram_psram.c',
+    ])
+
+    env.FirmwareComponent('esp_ipc', [
+        '/opt/esp/esp-idf/components/esp_ipc/src/esp_ipc_isr/esp_ipc_isr_handler.S',
+        '/opt/esp/esp-idf/components/esp_ipc/src/esp_ipc_isr/esp_ipc_isr_routines.S',
+        '/opt/esp/esp-idf/components/esp_ipc/src/esp_ipc.c',
+        '/opt/esp/esp-idf/components/esp_ipc/src/esp_ipc_isr/esp_ipc_isr.c',
+    ])
+
+    env.FirmwareComponent('esp_lcd', [
+        '/opt/esp/esp-idf/components/esp_lcd/src/esp_lcd_common.c',
+        '/opt/esp/esp-idf/components/esp_lcd/src/esp_lcd_panel_io.c',
+        '/opt/esp/esp-idf/components/esp_lcd/src/esp_lcd_panel_io_i2c.c',
+        '/opt/esp/esp-idf/components/esp_lcd/src/esp_lcd_panel_io_i2s.c',
+        '/opt/esp/esp-idf/components/esp_lcd/src/esp_lcd_panel_io_spi.c',
+        '/opt/esp/esp-idf/components/esp_lcd/src/esp_lcd_panel_io_i80.c',
+        '/opt/esp/esp-idf/components/esp_lcd/src/esp_lcd_panel_nt35510.c',
+        '/opt/esp/esp-idf/components/esp_lcd/src/esp_lcd_panel_ssd1306.c',
+        '/opt/esp/esp-idf/components/esp_lcd/src/esp_lcd_panel_st7789.c',
+        '/opt/esp/esp-idf/components/esp_lcd/src/esp_lcd_rgb_panel.c',
+        '/opt/esp/esp-idf/components/esp_lcd/src/esp_lcd_panel_ops.c',
+    ])
+
+    env.FirmwareComponent('esp_local_ctrl', [
+        '/opt/esp/esp-idf/components/esp_local_ctrl/src/esp_local_ctrl.c',
+        '/opt/esp/esp-idf/components/esp_local_ctrl/src/esp_local_ctrl_handler.c',
+        '/opt/esp/esp-idf/components/esp_local_ctrl/proto-c/esp_local_ctrl.pb-c.c',
+    ])
+
+    env.FirmwareComponent('esp_netif', [
+        '/opt/esp/esp-idf/components/esp_netif/esp_netif_handlers.c',
+        '/opt/esp/esp-idf/components/esp_netif/esp_netif_objects.c',
+        '/opt/esp/esp-idf/components/esp_netif/esp_netif_defaults.c',
+        '/opt/esp/esp-idf/components/esp_netif/lwip/esp_netif_lwip.c',
+        '/opt/esp/esp-idf/components/esp_netif/lwip/esp_netif_lwip_defaults.c',
+        '/opt/esp/esp-idf/components/esp_netif/lwip/esp_netif_sta_list.c',
+        '/opt/esp/esp-idf/components/esp_netif/loopback/esp_netif_loopback.c',
+    ])
+
+    env.FirmwareComponent('esp_phy', [
+        '/opt/esp/esp-idf/components/esp_phy/src/phy_override.c',
+        '/opt/esp/esp-idf/components/esp_phy/src/lib_printf.c',
+        '/opt/esp/esp-idf/components/esp_phy/src/phy_init.c',
+    ])
+
+    env.FirmwareComponent('esp_pm', [
+        '/opt/esp/esp-idf/components/esp_pm/pm_locks.c',
+        '/opt/esp/esp-idf/components/esp_pm/pm_trace.c',
+        '/opt/esp/esp-idf/components/esp_pm/pm_impl.c',
+    ])
+
+    env.FirmwareComponent('esp_ringbuf', [
+        '/opt/esp/esp-idf/components/esp_ringbuf/ringbuf.c',
+    ])
+
+    env.FirmwareComponent('esp_rom', [
+        '/opt/esp/esp-idf/components/esp_rom/patches/esp_rom_crc.c',
+        '/opt/esp/esp-idf/components/esp_rom/patches/esp_rom_sys.c',
+        '/opt/esp/esp-idf/components/esp_rom/patches/esp_rom_tjpgd.c',
+        '/opt/esp/esp-idf/components/esp_rom/patches/esp_rom_uart.c',
+        '/opt/esp/esp-idf/components/esp_rom/patches/esp_rom_longjmp.S',
+    ])
+
+    env.FirmwareComponent('esp_serial_slave_link', [
+        '/opt/esp/esp-idf/components/esp_serial_slave_link/essl_sdio.c',
+        '/opt/esp/esp-idf/components/esp_serial_slave_link/essl_spi.c',
+        '/opt/esp/esp-idf/components/esp_serial_slave_link/essl.c',
+    ])
+
+    env.FirmwareComponent('esp_system', [
+        '/opt/esp/esp-idf/components/esp_system/freertos_hooks.c',
+        '/opt/esp/esp-idf/components/esp_system/esp_err.c',
+        '/opt/esp/esp-idf/components/esp_system/crosscore_int.c',
+        '/opt/esp/esp-idf/components/esp_system/int_wdt.c',
+        '/opt/esp/esp-idf/components/esp_system/panic.c',
+        '/opt/esp/esp-idf/components/esp_system/esp_system.c',
+        '/opt/esp/esp-idf/components/esp_system/system_time.c',
+        '/opt/esp/esp-idf/components/esp_system/stack_check.c',
+        '/opt/esp/esp-idf/components/esp_system/task_wdt.c',
+        '/opt/esp/esp-idf/components/esp_system/startup.c',
+        '/opt/esp/esp-idf/components/esp_system/ubsan.c',
+        '/opt/esp/esp-idf/components/esp_system/port/cpu_start.c',
+        '/opt/esp/esp-idf/components/esp_system/xt_wdt.c',
+        '/opt/esp/esp-idf/components/esp_system/port/panic_handler.c',
+        '/opt/esp/esp-idf/components/esp_system/port/soc/esp32/highint_hdl.S',
+        '/opt/esp/esp-idf/components/esp_system/port/brownout.c',
+        '/opt/esp/esp-idf/components/esp_system/port/soc/esp32/clk.c',
+        '/opt/esp/esp-idf/components/esp_system/port/soc/esp32/system_internal.c',
+        '/opt/esp/esp-idf/components/esp_system/port/soc/esp32/cache_err_int.c',
+        '/opt/esp/esp-idf/components/esp_system/port/soc/esp32/reset_reason.c',
+        '/opt/esp/esp-idf/components/esp_system/port/arch/xtensa/panic_arch.c',
+        '/opt/esp/esp-idf/components/esp_system/port/arch/xtensa/panic_handler_asm.S',
+        '/opt/esp/esp-idf/components/esp_system/port/arch/xtensa/expression_with_stack_asm.S',
+        '/opt/esp/esp-idf/components/esp_system/port/arch/xtensa/expression_with_stack.c',
+        '/opt/esp/esp-idf/components/esp_system/port/arch/xtensa/debug_helpers.c',
+        '/opt/esp/esp-idf/components/esp_system/port/arch/xtensa/debug_stubs.c',
+        '/opt/esp/esp-idf/components/esp_system/port/arch/xtensa/debug_helpers_asm.S',
+        '/opt/esp/esp-idf/components/esp_system/port/arch/xtensa/trax.c',
+    ])
+
+    env.FirmwareComponent('esp_timer', [
+        '/opt/esp/esp-idf/components/esp_timer/src/ets_timer_legacy.c',
+        '/opt/esp/esp-idf/components/esp_timer/src/esp_timer.c',
+        '/opt/esp/esp-idf/components/esp_timer/src/system_time.c',
+        '/opt/esp/esp-idf/components/esp_timer/src/esp_timer_impl_lac.c',
+    ])
+
+    env.FirmwareComponent('esp_websocket_client', [
+        '/opt/esp/esp-idf/components/esp_websocket_client/esp_websocket_client.c',
+    ])
+
+    env.FirmwareComponent('esp_wifi', [
+        '/opt/esp/esp-idf/components/esp_wifi/src/coexist.c',
+        '/opt/esp/esp-idf/components/esp_wifi/src/mesh_event.c',
+        '/opt/esp/esp-idf/components/esp_wifi/src/smartconfig.c',
+        '/opt/esp/esp-idf/components/esp_wifi/src/smartconfig_ack.c',
+        '/opt/esp/esp-idf/components/esp_wifi/src/wifi_default.c',
+        '/opt/esp/esp-idf/components/esp_wifi/src/wifi_init.c',
+        '/opt/esp/esp-idf/components/esp_wifi/esp32/esp_adapter.c',
+        '/opt/esp/esp-idf/components/esp_wifi/src/wifi_netif.c',
+    ])
+
+    env.FirmwareComponent('espcoredump', [
+        '/opt/esp/esp-idf/components/espcoredump/src/core_dump_checksum.c',
+        '/opt/esp/esp-idf/components/espcoredump/src/core_dump_common.c',
+        '/opt/esp/esp-idf/components/espcoredump/src/core_dump_flash.c',
+        '/opt/esp/esp-idf/components/espcoredump/src/core_dump_uart.c',
+        '/opt/esp/esp-idf/components/espcoredump/src/core_dump_elf.c',
+        '/opt/esp/esp-idf/components/espcoredump/src/core_dump_binary.c',
+        '/opt/esp/esp-idf/components/espcoredump/src/port/xtensa/core_dump_port.c',
+    ])
+
+    #CPPDEFINES TASI
+    env.FirmwareComponent('expat', [
+        '/opt/esp/esp-idf/components/expat/expat/expat/lib/xmlparse.c',
+        '/opt/esp/esp-idf/components/expat/expat/expat/lib/xmlrole.c',
+        '/opt/esp/esp-idf/components/expat/expat/expat/lib/xmltok_impl.c',
+        '/opt/esp/esp-idf/components/expat/expat/expat/lib/xmltok.c',
+        '/opt/esp/esp-idf/components/expat/expat/expat/lib/xmltok_ns.c',
+    ], CPPDEFINES=['HAVE_EXPAT_CONFIG_H', 'HAVE_GETRANDOM', env.get('CPPDEFINES')])
+
+    env.FirmwareComponent('fatfs', [
+        '/opt/esp/esp-idf/components/fatfs/diskio/diskio.c',
+        '/opt/esp/esp-idf/components/fatfs/diskio/diskio_rawflash.c',
+        '/opt/esp/esp-idf/components/fatfs/diskio/diskio_sdmmc.c',
+        '/opt/esp/esp-idf/components/fatfs/diskio/diskio_wl.c',
+        '/opt/esp/esp-idf/components/fatfs/src/ff.c',
+        '/opt/esp/esp-idf/components/fatfs/port/freertos/ffsystem.c',
+        '/opt/esp/esp-idf/components/fatfs/vfs/vfs_fat.c',
+        '/opt/esp/esp-idf/components/fatfs/src/ffunicode.c',
+        '/opt/esp/esp-idf/components/fatfs/vfs/vfs_fat_sdmmc.c',
+        '/opt/esp/esp-idf/components/fatfs/vfs/vfs_fat_spiflash.c',
+    ])
+
+    env.FirmwareComponent('freemodbus', [
+        '/opt/esp/esp-idf/components/freemodbus/common/esp_modbus_master.c',
+        '/opt/esp/esp-idf/components/freemodbus/common/esp_modbus_slave.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/mb.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/mb_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/ascii/mbascii.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/rtu/mbrtu_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/rtu/mbrtu.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/rtu/mbcrc.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/tcp/mbtcp.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/tcp/mbtcp_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/ascii/mbascii_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/port/portevent.c',
+        '/opt/esp/esp-idf/components/freemodbus/port/portevent_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/port/portother.c',
+        '/opt/esp/esp-idf/components/freemodbus/port/portother_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/port/portserial.c',
+        '/opt/esp/esp-idf/components/freemodbus/port/portserial_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/port/porttimer.c',
+        '/opt/esp/esp-idf/components/freemodbus/port/port.c',
+        '/opt/esp/esp-idf/components/freemodbus/port/porttimer_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/functions/mbfunccoils_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/functions/mbfuncdiag.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/functions/mbfuncdisc.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/functions/mbfunccoils.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/functions/mbfuncholding.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/functions/mbfuncholding_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/functions/mbfuncinput.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/functions/mbfuncdisc_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/functions/mbfuncinput_m.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/functions/mbutils.c',
+        '/opt/esp/esp-idf/components/freemodbus/modbus/functions/mbfuncother.c',
+        '/opt/esp/esp-idf/components/freemodbus/serial_master/modbus_controller/mbc_serial_master.c',
+        '/opt/esp/esp-idf/components/freemodbus/serial_slave/modbus_controller/mbc_serial_slave.c',
+        '/opt/esp/esp-idf/components/freemodbus/tcp_slave/port/port_tcp_slave.c',
+        '/opt/esp/esp-idf/components/freemodbus/tcp_master/modbus_controller/mbc_tcp_master.c',
+        '/opt/esp/esp-idf/components/freemodbus/tcp_master/port/port_tcp_master.c',
+        '/opt/esp/esp-idf/components/freemodbus/tcp_slave/modbus_controller/mbc_tcp_slave.c',
+        '/opt/esp/esp-idf/components/freemodbus/common/esp_modbus_slave_tcp.c',
+        '/opt/esp/esp-idf/components/freemodbus/common/esp_modbus_master_serial.c',
+        '/opt/esp/esp-idf/components/freemodbus/common/esp_modbus_slave_serial.c',
+        '/opt/esp/esp-idf/components/freemodbus/common/esp_modbus_master_tcp.c',
+
+    ])
+
+    env.FirmwareComponent('freertos', [
+        '/opt/esp/esp-idf/components/freertos/port/xtensa/portasm.S',
+        '/opt/esp/esp-idf/components/freertos/port/xtensa/xtensa_context.S',
+        '/opt/esp/esp-idf/components/freertos/port/xtensa/xtensa_init.c',
+        '/opt/esp/esp-idf/components/freertos/port/xtensa/port.c',
+        '/opt/esp/esp-idf/components/freertos/port/xtensa/xtensa_overlay_os_hook.c',
+        '/opt/esp/esp-idf/components/freertos/port/xtensa/xtensa_vector_defaults.S',
+        '/opt/esp/esp-idf/components/freertos/port/xtensa/xtensa_vectors.S',
+        '/opt/esp/esp-idf/components/freertos/esp_additions/task_snapshot.c',
+        '/opt/esp/esp-idf/components/freertos/port/port_common.c',
+        '/opt/esp/esp-idf/components/freertos/port/port_systick.c',
+        '/opt/esp/esp-idf/components/freertos/event_groups.c',
+        '/opt/esp/esp-idf/components/freertos/list.c',
+        '/opt/esp/esp-idf/components/freertos/queue.c',
+        '/opt/esp/esp-idf/components/freertos/tasks.c',
+        '/opt/esp/esp-idf/components/freertos/croutine.c',
+        '/opt/esp/esp-idf/components/freertos/timers.c',
+        '/opt/esp/esp-idf/components/freertos/stream_buffer.c',
+        '/opt/esp/esp-idf/components/freertos/freertos_v8_compat.c',
+        '/opt/esp/esp-idf/components/freertos/FreeRTOS-openocd.c',
+    ])
+
+    env.FirmwareComponent('hal', [
+        '/opt/esp/esp-idf/components/hal/wdt_hal_iram.c',
+        '/opt/esp/esp-idf/components/hal/mpu_hal.c',
+        '/opt/esp/esp-idf/components/hal/cpu_hal.c',
+        '/opt/esp/esp-idf/components/hal/rmt_hal.c',
+        '/opt/esp/esp-idf/components/hal/rtc_io_hal.c',
+        '/opt/esp/esp-idf/components/hal/spi_hal_iram.c',
+        '/opt/esp/esp-idf/components/hal/spi_hal.c',
+        '/opt/esp/esp-idf/components/hal/spi_slave_hal.c',
+        '/opt/esp/esp-idf/components/hal/i2s_hal.c',
+        '/opt/esp/esp-idf/components/hal/spi_slave_hal_iram.c',
+        '/opt/esp/esp-idf/components/hal/sigmadelta_hal.c',
+        '/opt/esp/esp-idf/components/hal/ledc_hal.c',
+        '/opt/esp/esp-idf/components/hal/timer_hal.c',
+        '/opt/esp/esp-idf/components/hal/ledc_hal_iram.c',
+        '/opt/esp/esp-idf/components/hal/i2c_hal_iram.c',
+        '/opt/esp/esp-idf/components/hal/i2c_hal.c',
+        '/opt/esp/esp-idf/components/hal/gpio_hal.c',
+        '/opt/esp/esp-idf/components/hal/uart_hal_iram.c',
+        '/opt/esp/esp-idf/components/hal/uart_hal.c',
+        '/opt/esp/esp-idf/components/hal/spi_flash_hal_iram.c',
+        '/opt/esp/esp-idf/components/hal/spi_flash_hal.c',
+        '/opt/esp/esp-idf/components/hal/spi_flash_encrypt_hal_iram.c',
+        '/opt/esp/esp-idf/components/hal/soc_hal.c',
+        '/opt/esp/esp-idf/components/hal/sha_hal.c',
+        '/opt/esp/esp-idf/components/hal/interrupt_controller_hal.c',
+        '/opt/esp/esp-idf/components/hal/aes_hal.c',
+        '/opt/esp/esp-idf/components/hal/twai_hal.c',
+        '/opt/esp/esp-idf/components/hal/adc_hal.c',
+        '/opt/esp/esp-idf/components/hal/twai_hal_iram.c',
+        '/opt/esp/esp-idf/components/hal/mcpwm_hal.c',
+        '/opt/esp/esp-idf/components/hal/dac_hal.c',
+        '/opt/esp/esp-idf/components/hal/sdio_slave_hal.c',
+        '/opt/esp/esp-idf/components/hal/touch_sensor_hal.c',
+        '/opt/esp/esp-idf/components/hal/pcnt_hal.c',
+        '/opt/esp/esp-idf/components/hal/esp32/brownout_hal.c',
+        '/opt/esp/esp-idf/components/hal/esp32/adc_hal.c',
+        '/opt/esp/esp-idf/components/hal/esp32/touch_sensor_hal.c',
+        '/opt/esp/esp-idf/components/hal/esp32/interrupt_descriptor_table.c',
+        '/opt/esp/esp-idf/components/hal/esp32/gpio_hal_workaround.c',
+        '/opt/esp/esp-idf/components/hal/emac_hal.c',
+    ])
+    
+    env.FirmwareComponent('heap', [
+        '/opt/esp/esp-idf/components/heap/heap_caps.c',
+        '/opt/esp/esp-idf/components/heap/multi_heap.c',
+        '/opt/esp/esp-idf/components/heap/heap_tlsf.c',
+        '/opt/esp/esp-idf/components/heap/heap_caps_init.c',
+        '/opt/esp/esp-idf/components/heap/port/esp32/memory_layout.c',
+        '/opt/esp/esp-idf/components/heap/port/memory_layout_utils.c',
+    ], CPPDEFINES=['MULTI_HEAP_FREERTOS', env.get('CPPDEFINES')])
+
+    env.FirmwareComponent('jsmn', [
+        '/opt/esp/esp-idf/components/jsmn/src/jsmn.c',
+    ])
+
+    env.FirmwareComponent('json', [
+        '/opt/esp/esp-idf/components/json/cJSON/cJSON.c',
+        '/opt/esp/esp-idf/components/json/cJSON/cJSON_Utils.c',
+    ])
+    
+    env.FirmwareComponent('log', [
+        '/opt/esp/esp-idf/components/log/log.c',
+        '/opt/esp/esp-idf/components/log/log_buffers.c',
+        '/opt/esp/esp-idf/components/log/log_freertos.c',
+    ])
+
+    env.FirmwareComponent('libsodium', [
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_aead/chacha20poly1305/sodium/aead_chacha20poly1305.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_auth/crypto_auth.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_aead/xchacha20poly1305/sodium/aead_xchacha20poly1305.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_auth/hmacsha256/auth_hmacsha256.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_auth/hmacsha512/auth_hmacsha512.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_auth/hmacsha512256/auth_hmacsha512256.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_box/crypto_box.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_box/crypto_box_easy.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_box/crypto_box_seal.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_box/curve25519xchacha20poly1305/box_curve25519xchacha20poly1305.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_box/curve25519xchacha20poly1305/box_seal_curve25519xchacha20poly1305.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_core/ed25519/core_ed25519.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_core/ed25519/core_ristretto255.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_core/ed25519/ref10/ed25519_ref10.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_core/hchacha20/core_hchacha20.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_core/hsalsa20/core_hsalsa20.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_box/curve25519xsalsa20poly1305/box_curve25519xsalsa20poly1305.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_core/hsalsa20/ref2/core_hsalsa20_ref2.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_core/salsa/ref/core_salsa_ref.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_generichash/blake2b/ref/blake2b-compress-avx2.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_generichash/blake2b/ref/blake2b-compress-ref.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_generichash/blake2b/generichash_blake2.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_generichash/blake2b/ref/blake2b-ref.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_generichash/blake2b/ref/blake2b-compress-ssse3.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_generichash/crypto_generichash.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_hash/crypto_hash.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_generichash/blake2b/ref/generichash_blake2b.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_hash/sha256/hash_sha256.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_hash/sha512/cp/hash_sha512_cp.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_hash/sha256/cp/hash_sha256_cp.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_kdf/blake2b/kdf_blake2b.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_kdf/crypto_kdf.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_hash/sha512/hash_sha512.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_kx/crypto_kx.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_onetimeauth/poly1305/donna/poly1305_donna.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_onetimeauth/crypto_onetimeauth.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/argon2/argon2-core.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/argon2/argon2-encoding.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/argon2/argon2-fill-block-avx2.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/argon2/argon2-fill-block-avx512f.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/argon2/argon2-fill-block-ref.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_onetimeauth/poly1305/onetimeauth_poly1305.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/argon2/argon2.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/argon2/blake2b-long.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/argon2/pwhash_argon2i.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/argon2/argon2-fill-block-ssse3.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/crypto_pwhash.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/argon2/pwhash_argon2id.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/scryptsalsa208sha256/crypto_scrypt-common.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/scryptsalsa208sha256/pbkdf2-sha256.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/scryptsalsa208sha256/pwhash_scryptsalsa208sha256.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/scryptsalsa208sha256/scrypt_platform.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/crypto_scalarmult.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/curve25519/ref10/x25519_ref10.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/curve25519/sandy2x/consts.S',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/curve25519/sandy2x/curve25519_sandy2x.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/curve25519/sandy2x/fe51_invert.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_pwhash/scryptsalsa208sha256/nosse/pwhash_scryptsalsa208sha256_nosse.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/curve25519/sandy2x/fe51_nsquare.S',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/curve25519/sandy2x/fe51_mul.S',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/curve25519/sandy2x/fe51_pack.S',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/curve25519/sandy2x/ladder.S',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/curve25519/sandy2x/sandy2x.S',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/curve25519/scalarmult_curve25519.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/curve25519/sandy2x/fe_frombytes_sandy2x.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/ed25519/ref10/scalarmult_ed25519_ref10.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_secretbox/crypto_secretbox.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_scalarmult/ristretto255/ref10/scalarmult_ristretto255_ref10.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_secretbox/xchacha20poly1305/secretbox_xchacha20poly1305.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_secretbox/xsalsa20poly1305/secretbox_xsalsa20poly1305.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_secretstream/xchacha20poly1305/secretstream_xchacha20poly1305.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_shorthash/crypto_shorthash.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_shorthash/siphash24/ref/shorthash_siphash24_ref.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_shorthash/siphash24/ref/shorthash_siphashx24_ref.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_shorthash/siphash24/shorthash_siphash24.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_secretbox/crypto_secretbox_easy.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_shorthash/siphash24/shorthash_siphashx24.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_sign/ed25519/ref10/keypair.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_sign/ed25519/ref10/obsolete.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_sign/ed25519/ref10/open.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_sign/ed25519/ref10/sign.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_sign/crypto_sign.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_sign/ed25519/sign_ed25519.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/chacha20/dolbeau/chacha20_dolbeau-ssse3.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/chacha20/dolbeau/chacha20_dolbeau-avx2.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/chacha20/stream_chacha20.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/crypto_stream.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/chacha20/ref/chacha20_ref.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/salsa20/stream_salsa20.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/salsa20/ref/salsa20_ref.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/salsa20/xmm6/salsa20_xmm6.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/salsa20/xmm6int/salsa20_xmm6int-avx2.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/salsa20/xmm6/salsa20_xmm6-asm.S',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/salsa2012/ref/stream_salsa2012_ref.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/salsa2012/stream_salsa2012.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/salsa208/ref/stream_salsa208_ref.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/salsa20/xmm6int/salsa20_xmm6int-sse2.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/xchacha20/stream_xchacha20.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/xsalsa20/stream_xsalsa20.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_verify/sodium/verify.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/crypto_stream/salsa208/stream_salsa208.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/randombytes/randombytes.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/sodium/core.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/sodium/runtime.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/sodium/utils.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/sodium/codecs.c',
+        '/opt/esp/esp-idf/components/libsodium/port/randombytes_esp32.c',
+        '/opt/esp/esp-idf/components/libsodium/libsodium/src/libsodium/sodium/version.c',
+    ], CCFLAGS=['-Wno-unknown-pragmas', '-Wno-implicit-fallthrough', '-Wno-unused-function', '-Wno-unused-but-set-variable', env.get('CCFLAGS')],
+    CPPDEFINES=['CONFIGURED', 'NATIVE_LITTLE_ENDIAN', 'HAVE_WEAK_SYMBOLS', '__STDC_LIMIT_MACROS', '__STDC_CONSTANT_MACROS','RANDOMBYTES_DEFAULT_IMPLEMENTATION', env.get('CPPDEFINES')])
+
+    env.FirmwareComponent('lwip', [
+        '/opt/esp/esp-idf/components/lwip/apps/sntp/sntp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/api/api_lib.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/api/api_msg.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/api/if_api.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/api/netbuf.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/api/err.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/api/netdb.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/api/netifapi.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/api/sockets.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/api/tcpip.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/apps/netbiosns/netbiosns.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/def.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/dns.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/apps/sntp/sntp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/init.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/inet_chksum.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ip.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/memp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/mem.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/netif.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/pbuf.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/raw.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/sys.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/tcp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/stats.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/tcp_in.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/timeouts.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/udp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/tcp_out.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv4/autoip.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv4/dhcp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv4/etharp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv4/igmp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv4/ip4.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv4/icmp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv4/ip4_addr.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv4/ip4_frag.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv6/dhcp6.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv6/ethip6.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv4/ip4_napt.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv6/inet6.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv6/icmp6.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv6/ip6.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv6/ip6_frag.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv6/ip6_addr.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv6/nd6.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ethernet.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/core/ipv6/mld6.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/slipif.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/auth.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/lowpan6.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/chap-md5.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/chap-new.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/chap_ms.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/demand.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/ccp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/ecp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/eap.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/fsm.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/ipcp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/eui64.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/lcp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/magic.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/mppe.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/multilink.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/ipv6cp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/pppapi.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/ppp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/pppoe.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/pppol2tp.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/pppos.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/upap.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/utils.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/vj.c',
+        '/opt/esp/esp-idf/components/lwip/lwip/src/netif/ppp/pppcrypt.c',
+        '/opt/esp/esp-idf/components/lwip/port/esp32/hooks/tcp_isn_default.c',
+        '/opt/esp/esp-idf/components/lwip/port/esp32/hooks/lwip_default_hooks.c',
+        '/opt/esp/esp-idf/components/lwip/port/esp32/debug/lwip_debug.c',
+        '/opt/esp/esp-idf/components/lwip/port/esp32/netif/dhcp_state.c',
+        '/opt/esp/esp-idf/components/lwip/port/esp32/freertos/sys_arch.c',
+        '/opt/esp/esp-idf/components/lwip/port/esp32/netif/wlanif.c',
+        '/opt/esp/esp-idf/components/lwip/port/esp32/netif/ethernetif.c',
+        '/opt/esp/esp-idf/components/lwip/port/esp32/vfs_lwip.c',
+        '/opt/esp/esp-idf/components/lwip/apps/ping/ping.c',
+        '/opt/esp/esp-idf/components/lwip/apps/ping/ping_sock.c',
+        '/opt/esp/esp-idf/components/lwip/apps/dhcpserver/dhcpserver.c',
+        '/opt/esp/esp-idf/components/lwip/apps/ping/esp_ping.c',
+    ])
+
+    env.FirmwareComponent('mbedtls', [
+        '/opt/esp/esp-idf/components/mbedtls/esp_crt_bundle_esp_crt_bundle.c',
+    ])
+
+    blink_hex = env.ElfToHex(blink_elf)
+    install_dir = env.Install('$BUILD_DIR/../bin', blink_hex)
+
+    env.Alias('blink-app', install_dir)
